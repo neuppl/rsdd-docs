@@ -4,12 +4,13 @@ import type { PrimitiveVTreeType, VTreeType } from '../../util/vtree'
 type VTreeTypeLabels = PrimitiveVTreeType | 'EvenSplit'
 
 type Props = {
-  setVTreeType: (vtreeType: VTreeType) => void
+  setVTreeType: (vtreeType: VTreeType) => void,
+  defaultVTree?: VTreeTypeLabels
 }
 
-export default function VTreeSelect({ setVTreeType }: Props): JSX.Element {
+export default function VTreeSelect({ setVTreeType, defaultVTree }: Props): JSX.Element {
   const [selectedType, setSelectedType] =
-    useState<VTreeTypeLabels>('RightLinear')
+    useState<VTreeTypeLabels>(defaultVTree ?? 'RightLinear')
   const [numSplits, setNumSplits] = useState(1)
 
   const vtreeTypeOptions: Array<{ label: string; value: VTreeTypeLabels }> = [
@@ -24,13 +25,13 @@ export default function VTreeSelect({ setVTreeType }: Props): JSX.Element {
     <>
       <div className="inline-block mr-2">
         <select
-          value={selectedType}
+          defaultValue={defaultVTree ?? 'RightLinear'}
           onChange={(e) => {
             const n = e.target.value as VTreeTypeLabels
             setSelectedType(n)
             setVTreeType(n === 'EvenSplit' ? { EvenSplit: numSplits } : n)
           }}
-          className="btn btn-blue w-full h-full"
+          className="btn btn-blue w-full h-full border-none"
         >
           {vtreeTypeOptions.map((option) => (
             <option value={option.value} key={option.label}>

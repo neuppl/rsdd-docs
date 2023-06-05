@@ -19,7 +19,6 @@ export default function SDD(): JSX.Element {
   useEffect(() => {
     require('@site/static/rsdd').then((wasm) => {
       wasmRef.current = wasm
-      console.log(wasmRef.current)
       setLoaded(true)
     });
   }, [])

@@ -1,0 +1,103 @@
+---
+sidebar_position: 4
+---
+
+# SDDs and VTrees
+
+Learn how to use Sentential Decision Diagrams and create a corresponding VTree.
+
+## Concept: Sentential Decision Diagrams
+
+We'll now explore a different knowledge representation: Sentential Decision Diagrams (SDDs). SDDs were first introduced by the [Automated Reasoning Group](http://reasoning.cs.ucla.edu/sdd/) at UCLA, specifically in ["SDD: A New Canonical Representation of Propositional Knowledge Bases." (Darwiche, 2011)](https://dl.acm.org/doi/abs/10.5555/2283516.2283536). In summary, they are a relaxation on some of the properties of ROBDDs.
+
+ROBDDs require a variable ordering for their canonicity property. SDDs have an equivalent datastructure, called a "vtree".
+
+### How do SDDs work?
+
+TODO (more on how SDDs work here)
+
+### How do vtrees work?
+
+TODO (more on how SDDs work here)
+
+## Picking a `VTree`
+
+RSDD has support for basic vtree types (such as "right-linear", which picks the variables in-order and always has the left child as a variable), as well as heuristics to pick a good vtree for a target CNF.
+
+Let's write a new `compile_as_sdd` function; similar to the BDD version, we'll first pick a vtree before generating the SDD. For simplicity's sake, we'll compare a right-linear vtree (identical to a BDD), and a left-linear vtree (very unoptimal, often considered the "worst-case").
+
+```rust title="src/main.rs"
+use rsdd::repr::{vtree::VTree, var_label::VarLabel};
+
+fn compile_as_sdd(cnf: &Cnf) {
+    let order: Vec<VarLabel> = (0..cnf.num_vars())
+        .map(|x| VarLabel::new(x as u64))
+        .collect();
+
+    let rl_vtree = VTree::right_linear(&order);
+    let ll_vtree = VTree::left_linear(&order);
+}
+```
+
+As we'll see in the next section, the choice of vtree matters quite a bit!
+
+## Creating an `SddPtr` with a `SddManager`
+
+Similar to the BDD case, we will use a builder to do most of the work in generating SDDs and applying operations on them. In particular, the trait for `SddPtr`s is the `SddBuilder`.
+
+The `CompressionSddManager` is the "default" implementation for the `SddBuilder` trait; it preserves canonicity of SDDs via "compression", a concept introduced in Darwiche's 2011 paper. Using the manager is very straightforward:
+
+```rust title="src/main.rs"
+use rsdd::{sdd_builder::{CompressionSddManager, SddBuilder}};
+
+fn compile_as_sdd_with_vtree(cnf: &Cnf, vtree: VTree) {
+    let man = CompressionSddManager::new(vtree);
+    let sdd = man.from_cnf(cnf);
+
+    println!("# nodes: {}", sdd.num_child_nodes())
+}
+```
+
+Now, let's use our function in `compile_as_sdd`:
+
+```rust title="src/main.rs"
+fn compile_as_sdd(cnf: &Cnf) {
+    let order: Vec<VarLabel> = (0..cnf.num_vars())
+        .map(|x| VarLabel::new(x as u64))
+        .collect();
+
+    let rl_vtree = VTree::right_linear(&order);
+    let ll_vtree = VTree::left_linear(&order);
+
+    compile_as_sdd_with_vtree(cnf, rl_vtree);
+    compile_as_sdd_with_vtree(cnf, ll_vtree);
+}
+```
+
+And finally, use it in our main function:
+
+```rust title="src/main.rs"
+fn main() {
+    // ...
+    compile_as_sdd(&cnf);
+}
+```
+
+Observe what happens when we run our comparison:
+
+
+```
+$ cargo run example.cnf
+# nodes: 41
+# nodes: 151
+```
+
+Wow! The right-linear vtree produced a significantly smaller SDD than the left-linear one.
+
+## Visualization: Comparing VTrees
+
+Curious about how different vtrees affect the final SDD? Compare them side-by-side for the same SDD!
+
+import SddRightVersusLeftLinear from '@site/src/components/Demos/SDDRightVersusLeftLinear';
+
+<SddRightVersusLeftLinear />
