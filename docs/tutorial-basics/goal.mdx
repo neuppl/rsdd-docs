@@ -1,0 +1,33 @@
+---
+sidebar_position: 1
+---
+
+import ModelCountSDD from '../../src/components/Demos/ModelCountSDD';
+
+# Goal: Model Counting
+
+In 10 minutes, we'll cover most of RSDD's basic functionality.
+
+## End Product
+
+By the end of this tutorial, you'll develop a CLI application written Rust that performs model counting on CNFs.
+
+Throughout the process, you'll explore various areas of RSDD:
+
+- knowledge representations (BDDs, SDDs)
+- compilation strategies (bottom-up, compression versus semantic)
+- operations performable on decision diagrams
+- various data interchange formats (importing from DIMACS CNF, serializing to JSON)
+
+More concretely, we'll make a CLI tool that can take arbitrary CNFs (in DIMACS form) and perform a model count for them. We will support two different knowledge representations + compilation strategies --- bottom-up with BDDs and SDDs --- and show how to serialize these structures for reuse.
+
+```
+$ ./rsdd-test -f example.cnf
+model count: 5
+```
+
+## Interactive Demo
+
+The following is a web interface over the product from this tutorial.
+
+<ModelCountSDD />

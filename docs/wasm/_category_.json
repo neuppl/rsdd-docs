@@ -1,0 +1,8 @@
+{
+  "label": "Advanced: WebAssembly",
+  "position": 10,
+  "link": {
+    "type": "generated-index",
+    "description": "A guide on compiling and using RSDD in the browser with WebAssembly."
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "label": "Operations and Queries",
+  "position": 4,
+  "link": {
+    "type": "generated-index",
+    "description": "An intermediate tutorial on various operations and queries on decision diagrams."
+  }
+}

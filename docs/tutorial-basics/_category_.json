@@ -1,0 +1,8 @@
+{
+  "label": "Tutorial (Basics)",
+  "position": 3,
+  "link": {
+    "type": "generated-index",
+    "description": "A whirlwind tour of RSDD's basics on a time-tested task: model counting."
+  }
+}
