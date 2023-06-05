@@ -28,7 +28,7 @@ $ cargo run
 Hello, world!
 ```
 
-## Install `rsdd` and `clap`
+## Install `rsdd`
 
 First, add `rsdd` to your `Cargo.toml`. Since it's currently not published on [crates.io](https://crates.io/), we'll use the git repository as the source.
 

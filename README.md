@@ -1,41 +1,44 @@
-# Website
+# RSDD Docs
 
-This website is built using [Docusaurus 2](https://docusaurus.io/), a modern static website generator.
+This website provides user-facing docs for the [Rust Decision Diagram Library (RSDD)](https://github.com/neuppl/rsdd). It's still quite a work-in-progress, so don't expect too much yet!
 
-### Installation
+It's built with:
 
-```
-$ yarn
-```
+- [Docusaurus 2](https://docusaurus.io/)
+- [Tailwind](https://tailwindcss.com/)
+- [vis.js](https://visjs.org/)
+- the WebAssembly build target of [RSDD]((https://github.com/neuppl/rsdd))
 
-### Local Development
+Some items on the roadmap:
 
-```
-$ yarn start
-```
+- fleshing out most of the existing content on the site:
+  - a nice homepage, with neat examples
+  - fleshing out intro, intermediate, and advanced tutorials
+  - documenting quirks, compilation targets, etc.
+- developing more interactive demos and comparisons
+- versioning documentation (which is doable with Docusaurus)
 
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
+## Usage
 
-### Build
+### Development Setup
 
-```
-$ yarn build
-```
+The workflow for this project is pretty similar to most Node projects; we've developed this with Node 18.
 
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
-
-### Deployment
-
-Using SSH:
+To serve the website in *development mode* locally:
 
 ```
-$ USE_SSH=true yarn deploy
+$ npm install
+$ npm start
 ```
 
-Not using SSH:
+However, note that this is *not* what gets built for the final deploy; Docusaurus instead does some SSR. You can locally test the build process like so:
 
 ```
-$ GIT_USER=<Your GitHub username> yarn deploy
+$ npm run build
 ```
 
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+**Note**: this still isn't a perfect match for CD. For example, Actions runners have case-sensitive filesystems, but the default webpack resolve on macOS is case-insensitive - a huge source of bugs!
+
+## Licensing and Attribution
+
+This repository is MIT licensed.
