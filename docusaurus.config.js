@@ -58,9 +58,7 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
-      // TODO: fix social card
-      // Replace with your project's social card
-      image: 'img/docusaurus-social-card.jpg',
+      image: 'img/rsdd-social-card.png',
       navbar: {
         title: 'RSDD',
         items: [
