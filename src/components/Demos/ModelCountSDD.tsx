@@ -33,7 +33,7 @@ export default function ModelCountSDD(): JSX.Element {
           let res = wasm.demo_model_count_sdd(cnf);
 
           return <>
-            <h3 className='mt-2'>model count: {res.model_count}</h3>
+            {/* <h3 className='mt-2'>model count: {res.model_count}</h3> */}
             <p>(SDD to the left; VTree to the right, decided with minfill-DTree heuristic)</p>
             <div className='grid grid-cols-2 gap-2'>
               <SddGraph sdd={res.sdd as SddWrapper} />
