@@ -8,6 +8,11 @@ import { TINY_CNF_2 as DEFAULT_CNF } from '../../util/cnf'
 import WrappedRsddOutput from '../WrappedRsddOutput'
 import BrowserOnly from '@docusaurus/BrowserOnly'
 
+const vtreeString = (vtreeType: VTreeType) => {
+  if (typeof(vtreeType) === 'string') return vtreeType
+  return `Even Split, n=${vtreeType["EvenSplit"]}`
+}
+
 export default function SDDRightVersusLeftLinear(): JSX.Element {
   const [textarea, setTextarea] = useState(DEFAULT_CNF)
   const [vtreeType1, setVTreeType1] = useState<VTreeType>('RightLinear')
@@ -31,14 +36,23 @@ export default function SDDRightVersusLeftLinear(): JSX.Element {
           if (!loaded || wasmRef.current === null) return <></>
           const wasm = wasmRef.current;
 
+          const sdd1 = wasm.sdd(cnf, vtreeType1) as SddWrapper;
+          const sdd2 = wasm.sdd(cnf, vtreeType2) as SddWrapper;
 
-          return <div className='grid grid-cols-2 grid-gap-2'>
-            <SddGraph sdd={wasm.sdd(cnf, vtreeType1) as SddWrapper} />
-            <SddGraph sdd={wasm.sdd(cnf, vtreeType2) as SddWrapper} />
+
+          return <div className='grid grid-cols-2 gap-2 my-2'>
+            <div className='border border-solid rounded p-2'>
+              <p><b>{vtreeString(vtreeType1)} vtree</b>; {sdd1.nodes.length} OR nodes, {sdd1.nodes.map(and => and.length).reduce((a, b ) => a + b, 0)} AND nodes</p>
+              <SddGraph sdd={sdd1} />
+            </div>
+            <div className='border border-solid rounded p-2'>
+              <p><b>{vtreeString(vtreeType2)} vtree</b>; {sdd2.nodes.length} OR nodes, {sdd2.nodes.map(and => and.length).reduce((a, b ) => a + b, 0)} AND nodes</p>
+              <SddGraph sdd={sdd2} />
+            </div>
           </div>
         }
         return <section>
-          <div className='grid grid-cols-2 grid-gap-2'>
+          <div className='grid grid-cols-2 gap-2'>
             <textarea
               rows={4}
               className="w-full border p-2 rounded"
@@ -48,7 +62,7 @@ export default function SDDRightVersusLeftLinear(): JSX.Element {
               }}
             />
             <ul className='px-2 list-none'>
-              <li>
+              <li className='my-1'>
                 <button
                   className="button button--primary"
                   onClick={() => {
@@ -58,7 +72,7 @@ export default function SDDRightVersusLeftLinear(): JSX.Element {
                   load cnf
                 </button>
               </li>
-              <li>
+              <li className='my-1'>
                 <VTreeSelect
                   defaultVTree='RightLinear'
                   setVTreeType={(vtree) => {
@@ -66,7 +80,7 @@ export default function SDDRightVersusLeftLinear(): JSX.Element {
                   }}
                 /> (left SDD)
               </li>
-              <li>
+              <li className='my-1'>
                 <VTreeSelect
                   defaultVTree='LeftLinear'
                   setVTreeType={(vtree) => {
