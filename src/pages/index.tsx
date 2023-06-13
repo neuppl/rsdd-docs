@@ -43,7 +43,7 @@ export default function Home(): JSX.Element {
               <li>an SDD compiler that specializes for right-linear vtree fragments; we believe this makes RSDD the <a href="https://github.com/neuppl/are-we-sdd-yet">fastest SDD compiler</a></li>
               <li>support for various knowledge compilers: BDDs, SDDs, and Bayesian Networks</li>
               <li>utilities for operating on d-DNNFs, including model counting and marginal MAP</li>
-              <li>a WebAssembly compilation target</li>
+              <li>an (in-progress) WebAssembly compilation target</li>
             </ul>
             <p>In addition, ambitious goals are on the roadmap, including:</p>
             <ul>

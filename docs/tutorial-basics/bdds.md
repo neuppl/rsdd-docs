@@ -70,13 +70,16 @@ fn compile_as_bdd(cnf: &Cnf) {
 
 :::note
 
-This part of the API is unstable.
+This part of the API is unstable, and is likely to change very soon.
 
 :::
 
 To break down what's happening here,
 
-- TODO
+- the base data structure we are operating on is a `BddPtr`. These work like pointers: each `BddPtr` points to a real, in-memory BDD.
+- we are creating a `BddManager`. Currently, `BddManager` is generic over its "ApplyTable", which caches apply operations. We are using the "default" LRU cache.
+- the `::new_default_order_lru()` constructor automatically picks a variable ordering for us, which is linear from left to right. You can also specify a specific variable ordering when using `::new()`.
+- the `BddManager::from_cnf()` function generates a `BddPtr` from a CNF
 
 Let's now call this function!
 
@@ -95,4 +98,8 @@ $ cargo run example.cnf
 ... something very long
 ```
 
-Great! ...
+Neat!
+
+## Varying Variable Orders
+
+This section is coming soon! It will have a nice interactive demo :)
