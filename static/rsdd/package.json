@@ -1,7 +1,7 @@
 {
   "name": "rsdd",
   "collaborators": [
-    "Steven Holtzen <sholtzen@gmail.com>"
+    "Steven Holtzen <s.holtzen@northeastern.edu>"
   ],
   "description": "Rust decision diagrams.",
   "version": "0.1.0",
