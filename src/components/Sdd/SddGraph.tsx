@@ -61,7 +61,7 @@ function genSddNodesAndEdges(sdd: SddWrapper): Data {
             from: `and-${i}-${j}`,
             to: `or-${index}`,
             dashes: isSub ? [5, 5] : false,
-            color: compl ? 'red' : 'inherit',
+            color: compl ? 'red' : 'black',
             label: isSub ? 'sub' : 'prime',
           },
         ]
@@ -70,6 +70,7 @@ function genSddNodesAndEdges(sdd: SddWrapper): Data {
       return addEdgeIfExists(prime, false).concat(addEdgeIfExists(sub, true))
     })
   })
+
   return {
     nodes: ors.concat(ands),
     edges: andEdges.concat(orEdges),
